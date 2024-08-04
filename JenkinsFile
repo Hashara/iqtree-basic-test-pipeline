@@ -6,12 +6,16 @@ pipeline {
         booleanParam(defaultValue: true, description: 'Build the project?', name: 'BUILD')
 
      }
+     options {
+             skipStagesAfterUnstable()
+     }
      environment {
-        GITHUB_REPO = "${params.GITHUB_REPO}"
-        GITHUB_CREDENTIALS = "${params.GITHUB_CREDENTIALS}"
-        GITHUB_BRANCH = "${params.GITHUB_BRANCH}"
-        GITHUB_USER = "${params.GITHUB_USER}"
-        GITHUB_EMAIL = "${params.GITHUB_EMAIL}"
+        IQTREE_GIT_URL = "https://github.com/iqtree/iqtree2.git"
+        NCI_ALIAS = "nci_gadi"
+        WORKING_DIR = "/scratch/dx61/sa0557/iqtree2/ci-cd"
+        GIT_REPO = "iqtree2"
+        BUILD_SCRIPTS = "${WORKING_DIR}/build-scripts"
+        IQTREE_DIR = "${WORKING_DIR}/${GIT_REPO}"
     }
     stages {
         stage('Build') {
@@ -31,10 +35,104 @@ pipeline {
                 echo 'Building..'
             }
         }
-        stage('Test') {
+        stage('Test: Single threaded'){
             steps {
+                echo 'Testing..'
+
+            }
+        }
+        stage('Test: mpi') {
+
+            steps {
+                    /*
+
+                        1. build-mpi --> build the mpi version of iqtree2
+                        2. build-wompi --> build the non-mpi + openmp version of iqtree2
+                        3. build-nn --> build the non-mpi + openmp + NN version of iqtree2
+                        4. build-nn-mpi --> build the mpi + NN version of iqtree2
+                        4. build-gpu-nn --> build the non-mpi (openmp) + openmp + NN + GPU version of iqtree2
+                        6. build-gpu-nn-mpi --> build the mpi + NN + GPU version of iqtree2
+                     */
                 echo 'Testing..'
             }
         }
+         stage('Test: wompi') {
+
+            steps {
+                    /*
+
+                        1. build-mpi --> build the mpi version of iqtree2
+                        2. build-wompi --> build the non-mpi + openmp version of iqtree2
+                        3. build-nn --> build the non-mpi + openmp + NN version of iqtree2
+                        4. build-nn-mpi --> build the mpi + NN version of iqtree2
+                        4. build-gpu-nn --> build the non-mpi (openmp) + openmp + NN + GPU version of iqtree2
+                        6. build-gpu-nn-mpi --> build the mpi + NN + GPU version of iqtree2
+                     */
+                echo 'Testing..'
+            }
+        }
+
+        stage('Test: nn') {
+
+            steps {
+                    /*
+
+                        1. build-mpi --> build the mpi version of iqtree2
+                        2. build-wompi --> build the non-mpi + openmp version of iqtree2
+                        3. build-nn --> build the non-mpi + openmp + NN version of iqtree2
+                        4. build-nn-mpi --> build the mpi + NN version of iqtree2
+                        4. build-gpu-nn --> build the non-mpi (openmp) + openmp + NN + GPU version of iqtree2
+                        6. build-gpu-nn-mpi --> build the mpi + NN + GPU version of iqtree2
+                     */
+                echo 'Testing..'
+            }
+        }
+
+        stage('Test: nn-mpi') {
+
+            steps {
+                    /*
+
+                        1. build-mpi --> build the mpi version of iqtree2
+                        2. build-wompi --> build the non-mpi + openmp version of iqtree2
+                        3. build-nn --> build the non-mpi + openmp + NN version of iqtree2
+                        4. build-nn-mpi --> build the mpi + NN version of iqtree2
+                        4. build-gpu-nn --> build the non-mpi (openmp) + openmp + NN + GPU version of iqtree2
+                        6. build-gpu-nn-mpi --> build the mpi + NN + GPU version of iqtree2
+                     */
+                echo 'Testing..'
+            }
+        }
+        stage('Test: gpu-nn') {
+
+            steps {
+                    /*
+
+                        1. build-mpi --> build the mpi version of iqtree2
+                        2. build-wompi --> build the non-mpi + openmp version of iqtree2
+                        3. build-nn --> build the non-mpi + openmp + NN version of iqtree2
+                        4. build-nn-mpi --> build the mpi + NN version of iqtree2
+                        4. build-gpu-nn --> build the non-mpi (openmp) + openmp + NN + GPU version of iqtree2
+                        6. build-gpu-nn-mpi --> build the mpi + NN + GPU version of iqtree2
+                     */
+                echo 'Testing..'
+            }
+        }
+        stage('Test: gpu-nn-mpi') {
+
+            steps {
+                    /*
+
+                        1. build-mpi --> build the mpi version of iqtree2
+                        2. build-wompi --> build the non-mpi + openmp version of iqtree2
+                        3. build-nn --> build the non-mpi + openmp + NN version of iqtree2
+                        4. build-nn-mpi --> build the mpi + NN version of iqtree2
+                        4. build-gpu-nn --> build the non-mpi (openmp) + openmp + NN + GPU version of iqtree2
+                        6. build-gpu-nn-mpi --> build the mpi + NN + GPU version of iqtree2
+                     */
+                echo 'Testing..'
+            }
+        }
+
     }
 }
