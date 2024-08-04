@@ -4,6 +4,21 @@ pipeline {
     parameters {
         // bool for build
         booleanParam(defaultValue: true, description: 'Build the project?', name: 'BUILD')
+        string (defaultValue: 'master', description: 'Branch to build', name: 'BRANCH')
+
+        // bool for test
+        booleanParam(defaultValue: true, description: 'Run the NN?', name: 'NN')
+        booleanParam(defaultValue: true, description: 'Run the GPU?', name: 'GPU')
+
+        // dataset name
+        string (defaultValue: 'basic_test', description: 'Dataset name', name: 'DATASET')
+
+        // test options
+        string (defaultValue: '-m', description: 'M option', name: 'M_OPTION')
+        string (defaultValue: '--mset', description: 'MSET option', name: 'MSET_OPTION')
+        string (defaultValue: '--mrate', description: 'MRATE option', name: 'MRATE_OPTION')
+        string (defaultValue: 'other options', description: 'Other options', name: 'OTHER_OPTIONS')
+        number (defaultValue: 1, description: 'Number of attempt', name: 'N_ATTEMPT')
 
      }
      options {
@@ -16,6 +31,7 @@ pipeline {
         GIT_REPO = "iqtree2"
         BUILD_SCRIPTS = "${WORKING_DIR}/build-scripts"
         IQTREE_DIR = "${WORKING_DIR}/${GIT_REPO}"
+
     }
     stages {
         stage('Build') {
@@ -72,6 +88,22 @@ pipeline {
             }
         }
 
+        stage('Test: hybrid') {
+
+            steps {
+                    /*
+
+                        1. build-mpi --> build the mpi version of iqtree2
+                        2. build-wompi --> build the non-mpi + openmp version of iqtree2
+                        3. build-nn --> build the non-mpi + openmp + NN version of iqtree2
+                        4. build-nn-mpi --> build the mpi + NN version of iqtree2
+                        4. build-gpu-nn --> build the non-mpi (openmp) + openmp + NN + GPU version of iqtree2
+                        6. build-gpu-nn-mpi --> build the mpi + NN + GPU version of iqtree2
+                     */
+                echo 'Testing..'
+            }
+        }
+
         stage('Test: nn') {
 
             steps {
@@ -103,6 +135,22 @@ pipeline {
                 echo 'Testing..'
             }
         }
+
+        stage('Test: nn-hybrid') {
+
+            steps {
+                    /*
+
+                        1. build-mpi --> build the mpi version of iqtree2
+                        2. build-wompi --> build the non-mpi + openmp version of iqtree2
+                        3. build-nn --> build the non-mpi + openmp + NN version of iqtree2
+                        4. build-nn-mpi --> build the mpi + NN version of iqtree2
+                        4. build-gpu-nn --> build the non-mpi (openmp) + openmp + NN + GPU version of iqtree2
+                        6. build-gpu-nn-mpi --> build the mpi + NN + GPU version of iqtree2
+                     */
+                echo 'Testing..'
+            }
+        }
         stage('Test: gpu-nn') {
 
             steps {
@@ -119,6 +167,21 @@ pipeline {
             }
         }
         stage('Test: gpu-nn-mpi') {
+
+            steps {
+                    /*
+
+                        1. build-mpi --> build the mpi version of iqtree2
+                        2. build-wompi --> build the non-mpi + openmp version of iqtree2
+                        3. build-nn --> build the non-mpi + openmp + NN version of iqtree2
+                        4. build-nn-mpi --> build the mpi + NN version of iqtree2
+                        4. build-gpu-nn --> build the non-mpi (openmp) + openmp + NN + GPU version of iqtree2
+                        6. build-gpu-nn-mpi --> build the mpi + NN + GPU version of iqtree2
+                     */
+                echo 'Testing..'
+            }
+        }
+        stage('Test: gpu-nn-hybrid') {
 
             steps {
                     /*
