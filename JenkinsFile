@@ -18,7 +18,7 @@ pipeline {
         string (defaultValue: '--mset', description: 'MSET option', name: 'MSET_OPTION')
         string (defaultValue: '--mrate', description: 'MRATE option', name: 'MRATE_OPTION')
         string (defaultValue: 'other options', description: 'Other options', name: 'OTHER_OPTIONS')
-        string (defaultValue: 1, description: 'Number of attempt', name: 'N_ATTEMPT') // in the later stage convert this to int
+        string(name: 'N_ATTEMPT', defaultValue: '1', description: 'Number of attempt')  // in the later stage convert this to int
 
      }
      options {
