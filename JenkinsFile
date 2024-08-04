@@ -14,10 +14,10 @@ pipeline {
         string (defaultValue: 'basic_test', description: 'Dataset name', name: 'DATASET')
 
         // test options
-        string (defaultValue: '-m', description: 'M option', name: 'M_OPTION')
-        string (defaultValue: '--mset', description: 'MSET option', name: 'MSET_OPTION')
-        string (defaultValue: '--mrate', description: 'MRATE option', name: 'MRATE_OPTION')
-        string (defaultValue: 'other options', description: 'Other options', name: 'OTHER_OPTIONS')
+        string (defaultValue: 'TESTMERGEONLY', description: '-m option', name: 'M_OPTION')
+        string (description: '--mset option', name: 'MSET_OPTION')
+        string (description: '--mrate option', name: 'MRATE_OPTION')
+        string (description: 'Other options', name: 'OTHER_OPTIONS')
         string(name: 'N_ATTEMPT', defaultValue: '1', description: 'Number of attempt')  // in the later stage convert this to int
 
      }
