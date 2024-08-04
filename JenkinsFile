@@ -1,0 +1,40 @@
+// jenkins file for the basic test pipeline
+pipeline {
+    agent any
+    parameters {
+        // bool for build
+        booleanParam(defaultValue: true, description: 'Build the project?', name: 'BUILD')
+
+     }
+     environment {
+        GITHUB_REPO = "${params.GITHUB_REPO}"
+        GITHUB_CREDENTIALS = "${params.GITHUB_CREDENTIALS}"
+        GITHUB_BRANCH = "${params.GITHUB_BRANCH}"
+        GITHUB_USER = "${params.GITHUB_USER}"
+        GITHUB_EMAIL = "${params.GITHUB_EMAIL}"
+    }
+    stages {
+        stage('Build') {
+            steps {
+                // if build is true then echo build
+                script {
+                    if (params.BUILD) {
+                        echo 'Building..'
+                        // trigger jenkins iqtree-build-pipeline
+                        build job: 'iqtree-build-pipeline', parameters: [string(name: 'BRANCH', value: BRANCH)]
+
+                    }
+                    else {
+                        echo 'Skip build..'
+                    }
+                }
+                echo 'Building..'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+    }
+}
