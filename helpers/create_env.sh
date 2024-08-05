@@ -7,6 +7,7 @@ export IQ_TREE_DIR="${WORK_DIR}/iqtree2"
 export DATA_DIR="${WORK_DIR}/data"
 export CSV_PATH="${WORK_DIR}/input.csv"
 export BUILD_DIR="${WORK_DIR}/builds"
+export TEST_SCRIPTS_DIR="${WORK_DIR}/test_scripts"
 
 
 export OUTPUT_DIR="${WORK_DIR}/output"
