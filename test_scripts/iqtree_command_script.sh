@@ -2,7 +2,7 @@
 ######## input varibles #################
 export WORK_DIR="/scratch/dx61/sa0557/iqtree2/ci-cd"
 source ${WORK_DIR}/helpers/create_env.sh
-source ${WORK_DIR}/helpers/parse_input.sh
+source ${WORK_DIR}/helpers/env.sh
 
 ncpus=$ARG1
 nthreads=$ARG2
