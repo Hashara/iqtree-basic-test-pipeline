@@ -61,8 +61,7 @@ pipeline {
                     echo "featching ${IQTREE_CONFIG_REPO}"
                     sh "mkdir -p ${LOCAL_WD}"
                     dir ("${LOCAL_WD}") {
-                        credentialsId: 'git-PAT',
-                        git branch: 'master', url: "${IQTREE_CONFIG_REPO}"
+                        git credentialsId: 'git-PAT', branch: 'master', url: "${IQTREE_CONFIG_REPO}"
                     }
 
                 }
