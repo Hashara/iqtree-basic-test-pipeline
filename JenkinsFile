@@ -124,6 +124,27 @@ pipeline {
                             env.TREE = "false"
                         }
 
+                        // create dynamic env variables
+                        def N_ATTEMPT_INT = params.N_ATTEMPT.toInteger()
+                        def envFileContent = """
+                            #!/bin/bash
+                            export NATTEMPT=${N_ATTEMPT_INT} # number of attempts
+                            export M_OPTION=${M_OPTION} # MF/TESTMERGEONLY/TESTONLY ....
+                            export MRATE_OPTION=${MRATE_OPTION} # -mrate option
+                            export MSET_OPTION=${MSET_OPTION} # -mset option
+                            export OTHER_OPTIONS=${OTHER_OPTIONS} # other options
+
+                            # data files
+                            export ALIGNMENT=${ALIGNMENT}
+                            export PARTITION=${PARTITIONS}
+                            export TREE=${TREE}
+                            export USE_PARTITION=${USE_PARTITION}
+                        """
+
+                        // write env variables to a file
+                        writeFile file: "${WORKING_DIR}/helpers/env.sh", text: envFileContent
+
+
 
                        //  copy env configs to the remote working directory
                         sh "scp -r helpers ${NCI_ALIAS}:${WORKING_DIR}"
