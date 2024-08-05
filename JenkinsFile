@@ -85,7 +85,7 @@ pipeline {
                     echo "section: reading config file"
 
                     try {
-                        def config = readYaml file: "${LOCAL_WD}/${DATASET}/data/config.yaml"
+                        def config = readYaml file: "${LOCAL_WD}/${DATASET}/data/configs.yaml"
                         echo "config: ${config}"
 
                         // copy dataset to remote working directory
