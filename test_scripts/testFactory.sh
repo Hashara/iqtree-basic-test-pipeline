@@ -15,7 +15,7 @@ do
   			echo "Type: $type, Threads: $threads, CPUs: $cpus, Time: $time"
                       mem=$((4 * cpus * threads))GB
                       ncpus=$((cpus * threads))
-                      unique_name="$M_option$test_type.cpus.$cpus.threads.$threads.attempt.$attempt"
+                      unique_name="$m_option.$type.cpus.$cpus.threads.$threads.attempt.$attempt"
                       mkdir -p ${OUTPUT_DIR}/${type}
                       working_dir="${OUTPUT_DIR}/${type}"
                       cd ${working_dir}

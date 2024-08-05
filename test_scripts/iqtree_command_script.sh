@@ -90,7 +90,8 @@ nn_models_option="--nn-path-model $nn_model_finder --nn-path-rates $nn_alpha_fin
 
 ######
 # creating output directory
-prefix_name="${OUTPUT_DIR}/${type}/$unique_name"
+mkdir -p ${OUTPUT_DIR}/${type}/$unique_name
+prefix_name="${OUTPUT_DIR}/${type}/$unique_name/$unique_name"
 
 
 # case for type OPENMP, MPI, HYBRID, NN, NN-MPI, NN-HYBRID, GPU, GPU-MPI, GPU-HYBRID
