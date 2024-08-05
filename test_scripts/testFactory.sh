@@ -6,7 +6,7 @@ queue="normal"
 m_option="${M_OPTION}"
 
 
-for ((attempt=1; attempt <= nattempt; attempt +=1 ));
+for ((attempt=1; attempt <= $nattempt; attempt +=1 ));
 do
   head=true
   while IFS=, read -r type threads cpus time

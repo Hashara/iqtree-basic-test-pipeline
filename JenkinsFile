@@ -20,9 +20,9 @@ pipeline {
 
         // test options
         string (defaultValue: 'TESTMERGEONLY', description: '-m option', name: 'M_OPTION')
-        string (defaultValue: '', description: '--mset option', name: 'MSET_OPTION')
-        string (defaultValue: '', description: '--mrate option', name: 'MRATE_OPTION')
-        string (defaultValue: '', description: 'Other options', name: 'OTHER_OPTIONS')
+        string (defaultValue: 'false', description: '--mset option', name: 'MSET_OPTION')
+        string (defaultValue: 'false', description: '--mrate option', name: 'MRATE_OPTION')
+        string (defaultValue: 'false', description: 'Other options', name: 'OTHER_OPTIONS')
         string(defaultValue: '1', name: 'N_ATTEMPT', description: 'Number of attempt')  // in the later stage convert this to int
 
      }
@@ -50,6 +50,8 @@ pipeline {
         MRATE_OPTION = "${params.MRATE_OPTION}"
         OTHER_OPTIONS = "${params.OTHER_OPTIONS}"
         USE_PARTITION = "${params.USE_PARTITION}"
+
+        TEST_SCRIPTS_DIR = "${WORKING_DIR}/test_scripts"
 
 
     }
@@ -147,8 +149,9 @@ pipeline {
                 script {
                     echo "section: Test from script"
                     sh """
-                            ssh ${NCI_ALIAS} << 'EOF'
+                            ssh ${NCI_ALIAS} << EOF
                             source ${WORKING_DIR}/helpers/create_env.sh ${WORKING_DIR}/helpers/env.sh ${N_ATTEMPT} ${M_OPTION} ${MRATE_OPTION} ${MSET_OPTION} ${OTHER_OPTIONS} ${ALIGNMENT} ${PARTITIONS} ${TREE} ${USE_PARTITION}
+                            printenv
                             /bin/bash ${TEST_SCRIPTS_DIR}/testFactory.sh
 
                             EOF

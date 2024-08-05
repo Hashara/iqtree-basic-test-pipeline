@@ -44,14 +44,14 @@ mf_mset_mrate_option=""
 if [ ${MSET_OPTION} == "NN" ] && [ ${MRATE_OPTION} == "NN" ]; then
   nn_mset_mrate_option="--mset NN --mrate NN"
 elif [ ${MSET_OPTION} == "NN" ] ; then
-    if [ ${MRATE_OPTION} == "" ]; then
+    if [ ${MRATE_OPTION} == "false" ]; then
       nn_mset_mrate_option="--mset NN"
     else
       nn_mset_mrate_option="--mset NN --mrate ${MRATE_OPTION}"
       mf_mset_mrate_option="--mrate ${MRATE_OPTION}"
     fi
 elif [ ${MRATE_OPTION} == "NN" ]; then
-  if [ ${MSET_OPTION} == "" ]; then
+  if [ ${MSET_OPTION} == "false" ]; then
     nn_mset_mrate_option="--mrate NN"
   else
     nn_mset_mrate_option="--mset ${MSET_OPTION} --mrate NN"
