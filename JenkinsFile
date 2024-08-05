@@ -31,6 +31,10 @@ pipeline {
         GIT_REPO = "iqtree2"
         BUILD_SCRIPTS = "${WORKING_DIR}/build-scripts"
         IQTREE_DIR = "${WORKING_DIR}/${GIT_REPO}"
+        IQTREE_CONFIG_REPO = "https://github.com/Hashara/iqtree-test-config.git"
+        IQTREE_CONFIG_DIR = "${WORKING_DIR}/iqtree-test-config"
+        LOCAL_WD = "/Users/u7826985/Projects/iqtree-pipelines/local_wd"
+        IQTREE_CONFIG_REPO_LOCAL = "${WORKING_DIR}/iqtree-test-config"
 
     }
     stages {
@@ -49,6 +53,30 @@ pipeline {
                     }
                 }
                 echo 'Building..'
+            }
+        }
+        stage ('Cloning config repo') {
+            steps {
+                script {
+                    echo "featching ${IQTREE_CONFIG_REPO}"
+                    sh "mkdir -p ${LOCAL_WD}"
+                    dir ("${LOCAL_WD}") {
+                        credentialsId: 'git-PAT',
+                        git branch: 'master', url: "${IQTREE_CONFIG_REPO}"
+                    }
+
+                }
+            }
+
+        }
+        stage("reading config file") {
+            steps {
+                script {
+                    echo "section: reading config file"
+
+
+
+                }
             }
         }
         stage('Test: Single threaded'){
