@@ -13,6 +13,7 @@ pipeline {
         // bool for test
         booleanParam(defaultValue: true, description: 'Run the NN?', name: 'NN')
         booleanParam(defaultValue: true, description: 'Run the GPU?', name: 'GPU')
+        booleanParam(defaultValue: true, description: 'Run with partition?', name: 'USE_PARTITION')
 
         // dataset name
         string (defaultValue: 'basic_test', description: 'Dataset name in the config repo', name: 'DATASET')
@@ -41,6 +42,15 @@ pipeline {
         CONFIG_REPO_DIR = "iqtree-test-config"
         IQTREE_CONFIG_REPO_LOCAL = "${WORKING_DIR}/${CONFIG_REPO_DIR}"
         DATASET_DIR = "${WORKING_DIR}/data"
+
+        // params to env variables
+        N_ATTEMPT = "${params.N_ATTEMPT}"
+        M_OPTION = "${params.M_OPTION}"
+        MSET_OPTION = "${params.MSET_OPTION}"
+        MRATE_OPTION = "${params.MRATE_OPTION}"
+        OTHER_OPTIONS = "${params.OTHER_OPTIONS}"
+        USE_PARTITION = "${params.USE_PARTITION}"
+
 
     }
     stages {
@@ -91,6 +101,31 @@ pipeline {
                         // copy dataset to remote working directory
                         echo "copying data files to NCI"
                         sh "scp -r ${LOCAL_WD}/${DATASET}/data ${NCI_ALIAS}:${DATASET_DIR}"
+
+                        // read configs and assign to variables
+                        env.ALIGNMENT = config['data']['data_files']['alignment']
+
+                        //check partitions value is existing
+                        if (config['data']['data_files']['partitions']) {
+                            env.PARTITIONS = config['data']['data_files']['partitions']
+                        }
+                        else {
+                            env.PARTITIONS = "false"
+                        }
+
+                        // check tree value is existing
+                        if (config['data']['data_files']['tree']) {
+
+                            env.TREE = config['data']['data_files']['tree']
+                        }
+                        else {
+                            env.TREE = "false"
+                        }
+
+
+                       //  copy env configs to the remote working directory
+                        sh "scp -r helpers ${NCI_ALIAS}:${WORKING_DIR}"
+
 
                     } catch (err) {
                         echo "Error reading config file: ${err}"
@@ -248,4 +283,15 @@ pipeline {
         }
 
     }
+}
+
+// souce the env in to the nci
+def void source_env(){
+    sh """
+        ssh ${NCI_ALIAS} << 'EOF'
+        source ${WORKING_DIR}/helpers/create_env.sh ${WORKING_DIR}/helpers/env.sh ${N_ATTEMPT} ${M_OPTION} ${MRATE_OPTION} ${MSET_OPTION} ${OTHER_OPTIONS} ${ALIGNMENT} ${PARTITIONS} ${TREE} ${USE_PARTITION}
+
+        EOF
+    """
+
 }
