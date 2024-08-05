@@ -69,6 +69,8 @@ do
             					;;
             			esac
 
+          echo "${TEST_SCRIPTS_DIR}/iqtree_command_script.sh"
+
 
 
 
