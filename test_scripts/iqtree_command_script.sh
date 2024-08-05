@@ -1,13 +1,6 @@
 #!/bin/bash
 ######## input varibles #################
 
-mkdir -p ${OUTPUT_DIR}/${type}
-
-file_name="${OUTPUT_DIR}/${type}/execution.$unique_name.log"
-
-> $file_name
-
-echo "========================== execution for ${type}, for ${ncpus} number of CPUs and ${nthreads} number of Threads==========================" >> $file_name
 
 ncpus=$ARG1
 nthreads=$ARG2
@@ -17,6 +10,15 @@ m_option=$ARG5
 unique_name=$ARG6
 build_directory=$ARG7
 type=$ARG8
+
+########################################
+mkdir -p ${OUTPUT_DIR}/${type}
+
+file_name="${OUTPUT_DIR}/${type}/execution.$unique_name.log"
+
+> $file_name
+
+echo "========================== execution for ${type}, for ${ncpus} number of CPUs and ${nthreads} number of Threads==========================" >> $file_name
 
 
 #######################################
