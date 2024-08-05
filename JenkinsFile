@@ -6,12 +6,16 @@ pipeline {
         booleanParam(defaultValue: true, description: 'Build the project?', name: 'BUILD')
         string (defaultValue: 'master', description: 'Branch to build', name: 'BRANCH')
 
+        // bool for config repo
+        booleanParam(defaultValue: true, description: 'Clone the config repo?', name: 'CLONE_CONFIG_REPO')
+
+
         // bool for test
         booleanParam(defaultValue: true, description: 'Run the NN?', name: 'NN')
         booleanParam(defaultValue: true, description: 'Run the GPU?', name: 'GPU')
 
         // dataset name
-        string (defaultValue: 'basic_test', description: 'Dataset name', name: 'DATASET')
+        string (defaultValue: 'basic_test', description: 'Dataset name in the config repo', name: 'DATASET')
 
         // test options
         string (defaultValue: 'TESTMERGEONLY', description: '-m option', name: 'M_OPTION')
@@ -34,7 +38,9 @@ pipeline {
         IQTREE_CONFIG_REPO = "https://github.com/Hashara/iqtree-test-config.git"
         IQTREE_CONFIG_DIR = "${WORKING_DIR}/iqtree-test-config"
         LOCAL_WD = "/Users/u7826985/Projects/iqtree-pipelines/local_wd"
-        IQTREE_CONFIG_REPO_LOCAL = "${WORKING_DIR}/iqtree-test-config"
+        CONFIG_REPO_DIR = "iqtree-test-config"
+        IQTREE_CONFIG_REPO_LOCAL = "${WORKING_DIR}/${CONFIG_REPO_DIR}"
+        DATASET_DIR = "${WORKING_DIR}/data"
 
     }
     stages {
@@ -52,17 +58,22 @@ pipeline {
                         echo 'Skip build..'
                     }
                 }
-                echo 'Building..'
             }
         }
         stage ('Cloning config repo') {
             steps {
                 script {
-                    echo "featching ${IQTREE_CONFIG_REPO}"
-                    sh "mkdir -p ${LOCAL_WD}"
-                    dir ("${LOCAL_WD}") {
-                        git credentialsId: 'git-PAT', branch: 'master', url: "${IQTREE_CONFIG_REPO}"
+                    if (params.CLONE_CONFIG_REPO) {
+                       echo "featching ${IQTREE_CONFIG_REPO}"
+                       sh "mkdir -p ${LOCAL_WD}"
+                       dir ("${LOCAL_WD}") {
+                           git credentialsId: 'git-PAT', branch: 'master', url: "${IQTREE_CONFIG_REPO}"
+                       }
                     }
+                    else {
+                        echo 'Skip cloning config repo..'
+                    }
+
 
                 }
             }
@@ -72,6 +83,18 @@ pipeline {
             steps {
                 script {
                     echo "section: reading config file"
+
+                    try {
+                        def config = readYaml file: "${LOCAL_WD}/${DATASET}/data/config.yaml"
+                        echo "config: ${config}"
+
+                        // copy dataset to remote working directory
+                        echo "copying data files to NCI"
+                        sh "scp -r ${LOCAL_WD}/${DATASET}/data ${NCI_ALIAS}:${DATASET_DIR}"
+
+                    } catch (err) {
+                        echo "Error reading config file: ${err}"
+                    }
 
 
 
