@@ -1,6 +1,14 @@
 #!/bin/bash
 ######## input varibles #################
 
+mkdir -p ${OUTPUT_DIR}/${type}
+
+file_name="${OUTPUT_DIR}/${type}/execution.$unique_name.log"
+
+> $file_name
+
+echo "========================== execution for ${type}, for ${ncpus} number of CPUs and ${nthreads} number of Threads==========================" >> $file_name
+
 ncpus=$ARG1
 nthreads=$ARG2
 nattempt=$ARG3
@@ -64,14 +72,6 @@ fi
 
 ######
 # creating output directory
-
-mkdir -p ${OUTPUT_DIR}/${type}
-
-file_name="${OUTPUT_DIR}/${type}/execution.$unique_name.log"
-
-> $file_name
-
-echo "========================== execution for ${type}, for ${ncpus} number of CPUs and ${nthreads} number of Threads==========================" >> $file_name
 prefix_name="${OUTPUT_DIR}/${type}/$unique_name"
 
 
