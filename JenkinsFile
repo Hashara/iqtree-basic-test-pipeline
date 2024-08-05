@@ -150,7 +150,7 @@ pipeline {
                     echo "section: Test from script"
                     sh """
                             ssh ${NCI_ALIAS} << EOF
-                            source ${WORKING_DIR}/helpers/create_env.sh ${WORKING_DIR}/helpers/env.sh ${N_ATTEMPT} ${M_OPTION} ${MRATE_OPTION} ${MSET_OPTION} ${OTHER_OPTIONS} ${ALIGNMENT} ${PARTITIONS} ${TREE} ${USE_PARTITION}
+                            source ${WORKING_DIR}/helpers/create_env.sh ${N_ATTEMPT} ${M_OPTION} ${MRATE_OPTION} ${MSET_OPTION} ${OTHER_OPTIONS} ${ALIGNMENT} ${PARTITIONS} ${TREE} ${USE_PARTITION}
                             printenv
                             /bin/bash ${TEST_SCRIPTS_DIR}/testFactory.sh
 
@@ -312,7 +312,7 @@ pipeline {
 def void source_env(){
     sh """
         ssh ${NCI_ALIAS} << 'EOF'
-        source ${WORKING_DIR}/helpers/create_env.sh ${WORKING_DIR}/helpers/env.sh ${N_ATTEMPT} ${M_OPTION} ${MRATE_OPTION} ${MSET_OPTION} ${OTHER_OPTIONS} ${ALIGNMENT} ${PARTITIONS} ${TREE} ${USE_PARTITION}
+        source ${WORKING_DIR}/helpers/create_env.sh ${N_ATTEMPT} ${M_OPTION} ${MRATE_OPTION} ${MSET_OPTION} ${OTHER_OPTIONS} ${ALIGNMENT} ${PARTITIONS} ${TREE} ${USE_PARTITION}
 
         EOF
     """
