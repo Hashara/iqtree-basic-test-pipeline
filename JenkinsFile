@@ -134,6 +134,9 @@ pipeline {
                         // copy test scripts
                         sh "scp -r test_scripts ${NCI_ALIAS}:${WORKING_DIR}"
 
+                        // give execution permission to test_scripts
+                        sh "ssh ${NCI_ALIAS} chmod +x ${WORKING_DIR}/test_scripts/*"
+
 
                     } catch (err) {
                         echo "Error reading config file: ${err}"
