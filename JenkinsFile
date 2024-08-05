@@ -16,7 +16,7 @@ pipeline {
         booleanParam(defaultValue: true, description: 'Run with partition?', name: 'USE_PARTITION')
 
         // dataset name
-        string (defaultValue: 'basic_test', description: 'Dataset name in the config repo', name: 'DATASET')
+        string (defaultValue: 'example', description: 'Dataset name in the config repo', name: 'DATASET')
 
         // test options
         string (defaultValue: 'TESTMERGEONLY', description: '-m option', name: 'M_OPTION')
