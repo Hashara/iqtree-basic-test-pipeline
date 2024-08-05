@@ -126,6 +126,9 @@ pipeline {
                        //  copy env configs to the remote working directory
                         sh "scp -r helpers ${NCI_ALIAS}:${WORKING_DIR}"
 
+                        // copy csv path to the remote working directory
+                        sh "scp ${LOCAL_WD}/${DATASET}/csv/input.csv ${NCI_ALIAS}:${WORKING_DIR}"
+
 
                     } catch (err) {
                         echo "Error reading config file: ${err}"

@@ -79,7 +79,7 @@ do
     else
       head=false
     fi
-  done < input.csv
+  done < ${CSV_PATH}
 
 done
 
