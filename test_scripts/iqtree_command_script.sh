@@ -53,17 +53,17 @@ fi
 # handle mset and mrate options
 nn_mset_mrate_option=""
 mf_mset_mrate_option=""
-if [ ${MSET_OPTION} == "NN" ] && [ ${MRATE_OPTION} == "NN" ]; then
+if [ "${MSET_OPTION}" == "NN" ] && [ "${MRATE_OPTION}" == "NN" ]; then
   nn_mset_mrate_option="--mset NN --mrate NN"
-elif [ ${MSET_OPTION} == "NN" ] ; then
-    if [ ${MRATE_OPTION} == "false" ]; then
+elif [ "${MSET_OPTION}" == "NN" ] ; then
+    if [ "${MRATE_OPTION}" == "false" ]; then
       nn_mset_mrate_option="--mset NN"
     else
       nn_mset_mrate_option="--mset NN --mrate ${MRATE_OPTION}"
       mf_mset_mrate_option="--mrate ${MRATE_OPTION}"
     fi
-elif [ ${MRATE_OPTION} == "NN" ]; then
-  if [ ${MSET_OPTION} == "false" ]; then
+elif [ "${MRATE_OPTION}" == "NN" ]; then
+  if [ "${MSET_OPTION}" == "false" ]; then
     nn_mset_mrate_option="--mrate NN"
   else
     nn_mset_mrate_option="--mset ${MSET_OPTION} --mrate NN"
@@ -83,7 +83,7 @@ prefix_name="${OUTPUT_DIR}/${type}/$unique_name"
 case $type in
   OPENMP)
     test_type="openmp"
-    if [ $nthreds -gt 1 ]; then
+    if [ "$nthreds" -gt 1 ]; then
 
       /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $mf_mset_mrate_option ${OTHER_OPTIONS} -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
     else
