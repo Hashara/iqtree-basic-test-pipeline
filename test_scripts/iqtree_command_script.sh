@@ -45,11 +45,11 @@ fi
 data_params="-s ${DATA_DIR}/${ALIGNMENT}"
 
 if [ "${PARITION}" != "false" ] && [ "${TREE}" != "false" ] && [ "${USE_PARTITION}" == true ]; then # both partition and tree files are provided
-  data_params="-s ${DATA_DIR}/${ALIGNMENT} -p ${data_location}/${PARITION} -te ${data_location}/${TREE}"
+  data_params="-s ${DATA_DIR}/${ALIGNMENT} -p ${DATA_DIR}/${PARITION} -te ${DATA_DIR}/${TREE}"
 elif  [ "${PARITION}" == "false" ] && [ "${TREE}" != "false" ]; then # no partition file is provided
-  data_params="-s ${DATA_DIR}/${ALIGNMENT} -te ${data_location}/${TREE}"
+  data_params="-s ${DATA_DIR}/${ALIGNMENT} -te ${DATA_DIR}/${TREE}"
 elif [ "${PARTITION}" != "false" ] && [ "${TREE}" == "false" ] && [ "${USE_PARTITION}" == true ]; then
-  data_params="-s ${DATA_DIR}/${ALIGNMENT} -p ${data_location}/${PARTITION}"
+  data_params="-s ${DATA_DIR}/${ALIGNMENT} -p ${DATA_DIR}/${PARTITION}"
 fi
 
 ##############################################
