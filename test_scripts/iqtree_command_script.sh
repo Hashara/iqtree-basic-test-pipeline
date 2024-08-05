@@ -74,6 +74,12 @@ elif [ "${MRATE_OPTION}" == "NN" ]; then
 
 fi
 
+##############################################
+other_options=""
+if [ "${OTHER_OPTIONS}" != "false" ]; then
+  other_options="${OTHER_OPTIONS}"
+fi
+
 
 
 ######
@@ -87,9 +93,9 @@ case $type in
     test_type="openmp"
     if [ "$nthreds" -gt 1 ]; then
 
-      /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $mf_mset_mrate_option ${OTHER_OPTIONS} -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
+      /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
     else
-      /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $mf_mset_mrate_option ${OTHER_OPTIONS} -redo --prefix $prefix_name >> $file_name 2>&1
+      /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options -redo --prefix $prefix_name >> $file_name 2>&1
     fi
 
     ;;
