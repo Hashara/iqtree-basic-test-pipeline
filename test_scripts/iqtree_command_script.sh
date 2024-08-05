@@ -115,7 +115,7 @@ case $type in
     export OMP_NUM_THREADS=$nthreads
     export GOMP_CPU_AFFINITY=0-47
 
-    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options -redo --prefix $prefix_name >> $file_name 2>&1
+    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
     ;;
   NN)
     test_type="nn"
@@ -133,7 +133,7 @@ case $type in
     test_type="nn-hybrid"
     export OMP_NUM_THREADS=$nthreads
     export GOMP_CPU_AFFINITY=0-47
-    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
+    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
    ;;
   GPU)
     test_type="gpu"
@@ -152,7 +152,7 @@ case $type in
     test_type="gpu-hybrid"
     export OMP_NUM_THREADS=$nthreads
     export GOMP_CPU_AFFINITY=0-47
-    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
+    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
 
     ;;
   *)
