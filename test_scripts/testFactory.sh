@@ -18,6 +18,7 @@ do
                       unique_name="$M_option$test_type.cpus.$cpus.threads.$threads.attempt.$attempt"
                       mkdir -p ${OUTPUT_DIR}/${type}
                       working_dir="${OUTPUT_DIR}/${type}"
+                      cd ${working_dir}
 
   			# switch case for type OPENMP, MPI, HYBRID, NN, NN-MPI, NN-HYBRID, GPU, GPU-MPI, GPU-HYBRID
             			case $type in
