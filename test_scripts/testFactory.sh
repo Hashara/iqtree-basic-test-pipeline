@@ -75,7 +75,7 @@ do
 
       echo "sub -q$queue -Pdx61 -lwalltime=$time,ncpus=$ncpus,mem=$mem,jobfs=20GB,storage=scratch/dx61,wd -N $test_type.cpus.$cpus.threads.$threads -vARG1=$cpus,ARG2=$threads,ARG3=$attempt,ARG4=$working_dir,ARG5=$m_option,ARG6=$unique_name,ARG7=build_directory,ARG8=$type ${TEST_SCRIPTS_DIR}/iqtree_command_script.sh"
 
-      qsub -q$queue -Pdx61 -lwalltime=$time,ncpus=$ncpus,mem=$mem,jobfs=20GB,storage=scratch/dx61,wd -N $test_type.cpus.$cpus.threads.$threads -vARG1=$cpus,ARG2=$threads,ARG3=$attempt,ARG4=$working_dir,ARG5=$m_option,ARG6=$unique_name,ARG7=build_directory,ARG8=$type ${TEST_SCRIPTS_DIR}/iqtree_command_script.sh
+      qsub -q$queue -Pdx61 -lwalltime=$time,ncpus=$ncpus,mem=$mem,jobfs=20GB,storage=scratch/dx61,wd -N $test_type.cpus.$cpus.threads.$threads -vARG1=$cpus,ARG2=$threads,ARG3=$attempt,ARG4=$working_dir,ARG5=$m_option,ARG6=$unique_name,ARG7=$build_directory,ARG8=$type ${TEST_SCRIPTS_DIR}/iqtree_command_script.sh
 
       break # todo: remove this line to run all the tests
     else
