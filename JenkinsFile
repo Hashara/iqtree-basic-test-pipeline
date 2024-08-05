@@ -179,9 +179,8 @@ pipeline {
                             ssh ${NCI_ALIAS} << EOF
                             source ${WORKING_DIR}/helpers/create_env.sh
                             source ${WORKING_DIR}/helpers/env.sh
-                            printenv
                             /bin/bash ${TEST_SCRIPTS_DIR}/testFactory.sh
-
+                            exit
                             EOF
                         """
                 }
