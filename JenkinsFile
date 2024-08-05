@@ -108,8 +108,8 @@ pipeline {
                         env.ALIGNMENT = config['data']['data_files']['alignment']
 
                         //check partitions value is existing
-                        if (config['data']['data_files']['partitions']) {
-                            env.PARTITIONS = config['data']['data_files']['partitions']
+                        if (config['data']['data_files']['partition']) {
+                            env.PARTITIONS = config['data']['data_files']['partition']
                         }
                         else {
                             env.PARTITIONS = "false"
