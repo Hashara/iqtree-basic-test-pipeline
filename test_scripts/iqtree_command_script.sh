@@ -45,7 +45,7 @@ fi
 data_params="-s ${DATA_DIR}/${ALIGNMENT}"
 
 if [ "${USE_PPARTITION}" == "true" ]; then
-  mkdir -p ${OUTPUT_DIR}/partition
+  mkdir -p "${OUTPUT_DIR}/partition"
 fi
 if [ "${PARITION}" != "false" ] && [ "${TREE}" != "false" ] && [ "${USE_PARTITION}" ]; then # both partition and tree files are provided
   data_params="-s ${DATA_DIR}/${ALIGNMENT} -p ${data_location}/${PARITION} -te ${data_location}/${TREE}"
@@ -95,7 +95,7 @@ prefix_name="${OUTPUT_DIR}/${type}/$unique_name"
 case $type in
   OPENMP)
     test_type="openmp"
-    if [ "$nthreds" -gt 1 ]; then
+    if [ "$nthreads" -gt 1 ]; then
 
       /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
     else
