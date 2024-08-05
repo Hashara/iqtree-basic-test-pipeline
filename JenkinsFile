@@ -142,7 +142,7 @@ pipeline {
                         """
 
                         // write env variables to a file
-                        writeFile file: "${WORKING_DIR}/helpers/env.sh", text: envFileContent
+                        writeFile file: "helpers/env.sh", text: envFileContent
 
 
 
