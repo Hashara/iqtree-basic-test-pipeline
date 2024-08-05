@@ -43,11 +43,15 @@ fi
 ##############################################
 # handle data files
 data_params="-s ${DATA_DIR}/${ALIGNMENT}"
-if [ "${PARITION}" != "false" ] && [ "${TREE}" != "false" ] && [ "${USE_PARTITION}" == "true" ]; then # both partition and tree files are provided
+
+if [ ${USE_PPARTITION} == "true" ]; then
+  mkdir -p ${OUTPUT_DIR}/partition
+fi
+if [ "${PARITION}" != "false" ] && [ "${TREE}" != "false" ] && [ "${USE_PARTITION}" ]; then # both partition and tree files are provided
   data_params="-s ${DATA_DIR}/${ALIGNMENT} -p ${data_location}/${PARITION} -te ${data_location}/${TREE}"
 elif  [ "${PARITION}" == "false" ] && [ "${TREE}" != "false" ]; then # no partition file is provided
   data_params="-s ${DATA_DIR}/${ALIGNMENT} -te ${data_location}/${TREE}"
-elif [ "${PARTITION}" != "false" ] && [ "${TREE}" == "false" ] && [ "${USE_PARTITION}" == "true" ]; then
+elif [ "${PARTITION}" != "false" ] && [ "${TREE}" == "false" ] && [ "${USE_PARTITION}" ]; then
   data_params="-s ${DATA_DIR}/${ALIGNMENT} -p ${data_location}/${PARTITION}"
 fi
 
