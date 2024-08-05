@@ -19,7 +19,9 @@ do
                       mkdir -p ${OUTPUT_DIR}/${type}
                       working_dir="${OUTPUT_DIR}/${type}"
                       cd ${working_dir}
-
+                      ngpu=0
+                      test_type=""
+                      build_directory=""
   			# switch case for type OPENMP, MPI, HYBRID, NN, NN-MPI, NN-HYBRID, GPU, GPU-MPI, GPU-HYBRID
             			case $type in
             				OPENMP)
@@ -48,20 +50,23 @@ do
             					;;
             				GPU)
             					test_type="gpu"
-            					queue="qgpuvolta"
+            					queue="gpuvolta"
             					ncpus=$((cpus * threads * 12))
+            					ngpu=$((cpus * threads))
             					build_directory="build-gpu-nn"
             					;;
             				GPU-MPI)
             					test_type="gpu-mpi"
-            					queue="qgpuvolta"
+            					queue="gpuvolta"
             					ncpus=$((cpus * threads * 12))
+            					ngpu=$((cpus * threads))
             					build_directory="build-gpu-nn-mpi"
             					;;
             				GPU-HYBRID)
             					test_type="gpu-hybrid"
-            					queue="qgpuvolta"
+            					queue="gpuvolta"
             					ncpus=$((cpus * threads * 12))
+            					ngpu=$((cpus * threads))
             					build_directory="build-gpu-nn-mpi"
             					;;
             				*)
@@ -75,9 +80,12 @@ do
 
       echo "sub -q$queue -Pdx61 -lwalltime=$time,ncpus=$ncpus,mem=$mem,jobfs=20GB,storage=scratch/dx61,wd -N $test_type.cpus.$cpus.threads.$threads -vARG1=$cpus,ARG2=$threads,ARG3=$attempt,ARG4=$working_dir,ARG5=$m_option,ARG6=$unique_name,ARG7=build_directory,ARG8=$type ${TEST_SCRIPTS_DIR}/iqtree_command_script.sh"
 
-      qsub -q$queue -Pdx61 -lwalltime=$time,ncpus=$ncpus,mem=$mem,jobfs=20GB,storage=scratch/dx61,wd -N $test_type.cpus.$cpus.threads.$threads -vARG1=$cpus,ARG2=$threads,ARG3=$attempt,ARG4=$working_dir,ARG5=$m_option,ARG6=$unique_name,ARG7=$build_directory,ARG8=$type ${TEST_SCRIPTS_DIR}/iqtree_command_script.sh
-
-      break # todo: remove this line to run all the tests
+      if [ "$queue" == "gpuvolta" ]; then
+        qsub -q$queue -Pdx61 -lwalltime=$time,ncpus=$ncpus,ngpus=$ngpu,mem=$mem,jobfs=20GB,storage=scratch/dx61,wd -N $test_type.cpus.$cpus.threads.$threads -vARG1=$cpus,ARG2=$threads,ARG3=$attempt,ARG4=$working_dir,ARG5=$m_option,ARG6=$unique_name,ARG7=$build_directory,ARG8=$type ${TEST_SCRIPTS_DIR}/iqtree_command_script.sh
+      else
+        qsub -q$queue -Pdx61 -lwalltime=$time,ncpus=$ncpus,mem=$mem,jobfs=20GB,storage=scratch/dx61,wd -N $test_type.cpus.$cpus.threads.$threads -vARG1=$cpus,ARG2=$threads,ARG3=$attempt,ARG4=$working_dir,ARG5=$m_option,ARG6=$unique_name,ARG7=$build_directory,ARG8=$type ${TEST_SCRIPTS_DIR}/iqtree_command_script.sh
+      fi
+#      break # remove this line to run all the tests
     else
       head=false
     fi

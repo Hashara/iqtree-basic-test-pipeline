@@ -44,9 +44,6 @@ fi
 # handle data files
 data_params="-s ${DATA_DIR}/${ALIGNMENT}"
 
-if [ "${USE_PARTITION}" == true ]; then
-  mkdir -p "${OUTPUT_DIR}/partition"
-fi
 if [ "${PARITION}" != "false" ] && [ "${TREE}" != "false" ] && [ "${USE_PARTITION}" == true ]; then # both partition and tree files are provided
   data_params="-s ${DATA_DIR}/${ALIGNMENT} -p ${data_location}/${PARITION} -te ${data_location}/${TREE}"
 elif  [ "${PARITION}" == "false" ] && [ "${TREE}" != "false" ]; then # no partition file is provided
@@ -84,7 +81,12 @@ if [ "${OTHER_OPTIONS}" != "false" ]; then
   other_options="${OTHER_OPTIONS}"
 fi
 
-
+##############################################
+# model dir
+model_dir="/scratch/dx61/sa0557/iqtree2/models"
+nn_model_finder="${model_dir}/resnet_modelfinder.onnx"
+nn_alpha_finder="${model_dir}/lanfear_alpha_lstm.onnx"
+nn_models_option="--nn-path-model $nn_model_finder --nn-path-rates $nn_alpha_finder"
 
 ######
 # creating output directory
@@ -105,27 +107,52 @@ case $type in
     ;;
   MPI)
     test_type="mpi"
+    mpirun -np $ncpus ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options -redo --prefix $prefix_name >> $file_name 2>&1
     ;;
   HYBRID)
     test_type="hybrid"
+    export OMP_NUM_THREADS=$nthreads
+    export GOMP_CPU_AFFINITY=0-47
+
+    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options -redo --prefix $prefix_name >> $file_name 2>&1
     ;;
   NN)
     test_type="nn"
+    if [ "$nthreads" -gt 1 ]; then
+          /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
+        else
+          /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
+        fi
     ;;
   NN-MPI)
     test_type="nn-mpi"
+    mpirun -np $ncpus ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
     ;;
   NN-HYBRID)
     test_type="nn-hybrid"
-    ;;
+    export OMP_NUM_THREADS=$nthreads
+    export GOMP_CPU_AFFINITY=0-47
+    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
+   ;;
   GPU)
     test_type="gpu"
+    if [ "$nthreads" -gt 1 ]; then
+        /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
+      else
+        /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
+      fi
     ;;
   GPU-MPI)
     test_type="gpu-mpi"
+    mpirun -np $ncpus ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
+
     ;;
   GPU-HYBRID)
     test_type="gpu-hybrid"
+    export OMP_NUM_THREADS=$nthreads
+    export GOMP_CPU_AFFINITY=0-47
+    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
+
     ;;
   *)
     echo "Invalid test type"
