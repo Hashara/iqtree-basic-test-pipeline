@@ -14,6 +14,8 @@ type=$ARG8
 ########################################
 mkdir -p ${OUTPUT_DIR}/${type}
 
+cd ${OUTPUT_DIR}/${type}
+
 file_name="${OUTPUT_DIR}/${type}/execution.$unique_name.log"
 
 > $file_name
