@@ -44,7 +44,7 @@ fi
 # handle data files
 data_params="-s ${DATA_DIR}/${ALIGNMENT}"
 
-if [ "${USE_PPARTITION}" == "true" ]; then
+if [ "${USE_PPARTITION}" == true ]; then
   mkdir -p "${OUTPUT_DIR}/partition"
 fi
 if [ "${PARITION}" != "false" ] && [ "${TREE}" != "false" ] && [ "${USE_PARTITION}" ]; then # both partition and tree files are provided
