@@ -33,10 +33,10 @@ module load openmpi/4.1.5
 module load boost/1.84.0
 module load llvm/17.0.1
 
-if [ "$type" == "GPU*"  ]; then
-  module load cuda/11.4.1
-  module load cudnn/8.2.2-cuda11.4
-fi
+#if [ "$type" == "GPU*"  ]; then
+module load cuda/11.4.1
+module load cudnn/8.2.2-cuda11.4
+#fi
 
 
 
