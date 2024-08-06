@@ -58,12 +58,15 @@ nn_mset_mrate_option=""
 mf_mset_mrate_option=""
 if [ "${MSET_OPTION}" == "NN" ] && [ "${MRATE_OPTION}" == "NN" ]; then
   nn_mset_mrate_option="--mset NN --mrate NN"
+  mf_mset_mrate_option="--mset \"GTR,JC,K2P,F81,HKY,TN\""
 elif [ "${MSET_OPTION}" == "NN" ] ; then
     if [ "${MRATE_OPTION}" == "false" ]; then
       nn_mset_mrate_option="--mset NN"
+      mf_mset_mrate_option="--mset \"GTR,JC,K2P,F81,HKY,TN\""
+
     else
       nn_mset_mrate_option="--mset NN --mrate ${MRATE_OPTION}"
-      mf_mset_mrate_option="--mrate ${MRATE_OPTION}"
+      mf_mset_mrate_option="--mrate ${MRATE_OPTION} --mset \"GTR,JC,K2P,F81,HKY,TN\""
     fi
 elif [ "${MRATE_OPTION}" == "NN" ]; then
   if [ "${MSET_OPTION}" == "false" ]; then
