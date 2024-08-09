@@ -105,6 +105,9 @@ case $type in
 
       /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
     else
+      # todo: remove this
+      export OMP_PROC_BIND=spread
+      export OMP_PLACES=cores
       /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options -redo --prefix $prefix_name >> $file_name 2>&1
     fi
 
@@ -125,6 +128,10 @@ case $type in
     if [ "$nthreads" -gt 1 ]; then
           /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
         else
+          # todo: remove this
+          export OMP_PROC_BIND=spread
+          export OMP_PLACES=cores
+
           /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
         fi
     ;;
