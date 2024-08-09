@@ -131,6 +131,8 @@ case $type in
           # todo: remove this
           export OMP_PROC_BIND=spread
           export OMP_PLACES=cores
+          export OMP_NUM_THREADS=$nthreads
+          export GOMP_CPU_AFFINITY=0-47
 
           /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
         fi
