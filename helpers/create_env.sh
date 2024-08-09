@@ -10,9 +10,9 @@ export BUILD_DIR="${WORK_DIR}/builds"
 export TEST_SCRIPTS_DIR="${WORK_DIR}/test_scripts"
 
 
-export OUTPUT_DIR="${WORK_DIR}/output"
-
-mkdir -p $OUTPUT_DIR
+#export OUTPUT_DIR="${WORK_DIR}/output"
+#
+#mkdir -p $OUTPUT_DIR
 
 #export NATTEMPT=$1 # number of attempts
 #export M_OPTION=$2 # MF/TESTMERGEONLY/TESTONLY ....
