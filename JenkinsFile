@@ -145,7 +145,7 @@ pipeline {
                             export USE_PARTITION=${USE_PARTITION}
                             export OUTPUT_DIR="${WORKING_DIR}/output-${DATASET}"
 
-                            mkdir -p $OUTPUT_DIR
+                            mkdir -p ${WORKING_DIR}/output-${DATASET}
                         """
 
                         // write env variables to a file
