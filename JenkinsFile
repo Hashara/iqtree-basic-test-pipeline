@@ -106,7 +106,7 @@ pipeline {
 
                         // copy dataset to remote working directory
                         echo "copying data files to NCI"
-                        sh "scp -r ${LOCAL_WD}/${DATASET}/data ${NCI_ALIAS}:${DATASET_DIR}"
+                        sh "scp -r ${LOCAL_WD}/${DATASET}/data/* ${NCI_ALIAS}:${DATASET_DIR}"
 
                         // read configs and assign to variables
                         env.ALIGNMENT = config['data']['data_files']['alignment']
