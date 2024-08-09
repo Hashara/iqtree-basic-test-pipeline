@@ -100,6 +100,10 @@ pipeline {
                         def config = readYaml file: "${LOCAL_WD}/${DATASET}/data/configs.yaml"
                         echo "config: ${config}"
 
+                        //remove existing data in the NCI
+                        echo "removing existing data in NCI"
+                        sh "ssh ${NCI_ALIAS} rm -rf ${DATASET_DIR}/*"
+
                         // copy dataset to remote working directory
                         echo "copying data files to NCI"
                         sh "scp -r ${LOCAL_WD}/${DATASET}/data ${NCI_ALIAS}:${DATASET_DIR}"
@@ -139,6 +143,9 @@ pipeline {
                             export PARTITION=${PARTITIONS}
                             export TREE=${TREE}
                             export USE_PARTITION=${USE_PARTITION}
+                            export OUTPUT_DIR="${WORKING_DIR}/output-${DATASET}"
+
+                            mkdir -p $OUTPUT_DIR
                         """
 
                         // write env variables to a file
