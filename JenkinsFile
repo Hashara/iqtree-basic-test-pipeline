@@ -65,6 +65,7 @@ pipeline {
         MRATE_OPTION = "${params.MRATE_OPTION}"
         OTHER_OPTIONS = "${params.OTHER_OPTIONS}"
         USE_PARTITION = "${params.USE_PARTITION}"
+        USE_TREE = "${params.USE_TREE}"
 
         TEST_SCRIPTS_DIR = "${WORKING_DIR}/test_scripts"
 
@@ -172,6 +173,7 @@ export ALIGNMENT=${ALIGNMENT}
 export PARTITION=${PARTITIONS}
 export TREE=${TREE}
 export USE_PARTITION=${USE_PARTITION}
+export USE_TREE=${USE_TREE}
 export OUTPUT_DIR="${WORKING_DIR}/output-${DATASET}"
 
 mkdir -p ${WORKING_DIR}/output-${DATASET}

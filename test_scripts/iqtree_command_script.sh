@@ -1,6 +1,6 @@
 #!/bin/bash
 ######## input varibles #################
-export WORK_DIR="/scratch/dx61/sa0557/iqtree2/ci-cd"
+export WORK_DIR=$ARG9
 source ${WORK_DIR}/helpers/env.sh
 source ${WORK_DIR}/helpers/create_env.sh
 
@@ -44,13 +44,25 @@ module load cudnn/8.2.2-cuda11.4
 # handle data files
 data_params="-s ${DATA_DIR}/${ALIGNMENT}"
 
-if [ "${PARITION}" != "false" ] && [ "${TREE}" != "false" ] && [ "${USE_PARTITION}" == true ]; then # both partition and tree files are provided
-  data_params="-s ${DATA_DIR}/${ALIGNMENT} -p ${DATA_DIR}/${PARTITION} -te ${DATA_DIR}/${TREE}"
-elif  [ "${PARITION}" == "false" ] && [ "${TREE}" != "false" ]; then # no partition file is provided
-  data_params="-s ${DATA_DIR}/${ALIGNMENT} -te ${DATA_DIR}/${TREE}"
-elif [ "${PARTITION}" != "false" ] && [ "${TREE}" == "false" ] && [ "${USE_PARTITION}" == true ]; then
-  data_params="-s ${DATA_DIR}/${ALIGNMENT} -p ${DATA_DIR}/${PARTITION}"
+#if [ "${PARITION}" != "false" ] && [ "${TREE}" != "false" ] && [ "${USE_PARTITION}" == true ] && [ "${USE_TREE}" == true ]; then # both partition and tree files are provided
+#  data_params="-s ${DATA_DIR}/${ALIGNMENT} -p ${DATA_DIR}/${PARTITION} -te ${DATA_DIR}/${TREE}"
+#elif [ "${PARITION}" != "false" ] && [ "${TREE}" != "false" ] && [ "${USE_PARTITION}" == true ]; then # both partition and tree files are provided
+#  data_params="-s ${DATA_DIR}/${ALIGNMENT} -p ${DATA_DIR}/${PARTITION}"
+#elif [ "${PARITION}" != "false" ] && [ "${TREE}" != "false" ] && [ "${USE_TREE}" == true ]; then # both partition and tree files are provided
+#    data_params="-s ${DATA_DIR}/${ALIGNMENT} -te ${DATA_DIR}/${TREE}"
+#elif  [ "${PARITION}" == "false" ] && [ "${TREE}" != "false" ]; then # no partition file is provided
+#  data_params="-s ${DATA_DIR}/${ALIGNMENT} -te ${DATA_DIR}/${TREE}"
+#elif [ "${PARTITION}" != "false" ] && [ "${TREE}" == "false" ] && [ "${USE_PARTITION}" == true ]; then
+#  data_params="-s ${DATA_DIR}/${ALIGNMENT} -p ${DATA_DIR}/${PARTITION}"
+#fi
+
+if [ "${USE_PARTITION}" == true ] && [ "${PARITION}" != "false" ]; then
+  data_params+=" -p ${DATA_DIR}/${PARTITION}"
 fi
+if [ "${USE_TREE}" == true ] && [ "${TREE}" != "false" ]; then
+  data_params+=" -te ${DATA_DIR}/${TREE}"
+fi
+
 
 ##############################################
 # handle mset and mrate options
