@@ -66,6 +66,10 @@ pipeline {
         OTHER_OPTIONS = "${params.OTHER_OPTIONS}"
         USE_PARTITION = "${params.USE_PARTITION}"
         USE_TREE = "${params.USE_TREE}"
+        NN="${params.NN}"
+        ONNX_NN="${params.ONNX_NN}"
+        GPU="${params.GPU}"
+        ONNX_NN_GPU="${params.ONNX_NN_GPU}"
 
         TEST_SCRIPTS_DIR = "${WORKING_DIR}/test_scripts"
 
