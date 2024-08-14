@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # This script is used to create the environment for the test scripts
-export WORK_DIR="/scratch/dx61/sa0557/iqtree2/ci-cd"
 
 export IQ_TREE_DIR="${WORK_DIR}/iqtree2"
 export DATA_DIR="${WORK_DIR}/data"

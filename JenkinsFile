@@ -2,18 +2,33 @@
 pipeline {
     agent any
     parameters {
+
         // bool for build
         booleanParam(defaultValue: true, description: 'Build the project?', name: 'BUILD')
+
+        // following  are params for build pipeline
         string (defaultValue: 'master', description: 'Branch to build', name: 'BRANCH')
+        string(name: 'NCI_ALIAS', defaultValue: 'nci_gadi', description: 'ssh alias, if you do not have one, create one')
+
+        string(name: 'WORKING_DIR', defaultValue: '/scratch/dx61/sa0557/iqtree2/ci-cd', description: 'Working directory')
+
+        // bool for building NN
+        booleanParam(defaultValue: true, description: 'Run the NN?', name: 'NN')
+        string(name: 'ONNX_NN', description: 'onnxruntime for NN (use 1.12 version)', defaultValue: '/scratch/dx61/sa0557/iqtree2/onnxruntime-linux-x64-1.12.1')
+
+        booleanParam(defaultValue: true, description: 'Run the GPU?', name: 'GPU')
+        string(name: 'ONNX_NN_GPU', description: 'onnxruntime for NN-CUDA (use 1.12 version)', defaultValue: '/scratch/dx61/sa0557/iqtree2/onnxruntime-linux-x64-gpu-1.12.1')
+
 
         // bool for config repo
         booleanParam(defaultValue: true, description: 'Clone the config repo?', name: 'CLONE_CONFIG_REPO')
 
+        string (defaultValue: '/Users/u7826985/Projects/iqtree-pipelines/local_wd', description: 'Local working directory', name: 'LOCAL_WD')
+
 
         // bool for test
-        booleanParam(defaultValue: true, description: 'Run the NN?', name: 'NN')
-        booleanParam(defaultValue: true, description: 'Run the GPU?', name: 'GPU')
         booleanParam(defaultValue: true, description: 'Run with partition?', name: 'USE_PARTITION')
+        booleanParam(defaultValue: false, description: 'Run with tree?', name: 'USE_TREE')
 
         // dataset name
         string (defaultValue: 'example', description: 'Dataset name in the config repo', name: 'DATASET')
@@ -31,14 +46,14 @@ pipeline {
      }
      environment {
         IQTREE_GIT_URL = "https://github.com/iqtree/iqtree2.git"
-        NCI_ALIAS = "nci_gadi"
-        WORKING_DIR = "/scratch/dx61/sa0557/iqtree2/ci-cd"
+        NCI_ALIAS = "${params.NCI_ALIAS}"
+        WORKING_DIR = "${params.WORKING_DIR}"
         GIT_REPO = "iqtree2"
         BUILD_SCRIPTS = "${WORKING_DIR}/build-scripts"
         IQTREE_DIR = "${WORKING_DIR}/${GIT_REPO}"
         IQTREE_CONFIG_REPO = "https://github.com/Hashara/iqtree-test-config.git"
         IQTREE_CONFIG_DIR = "${WORKING_DIR}/iqtree-test-config"
-        LOCAL_WD = "/Users/u7826985/Projects/iqtree-pipelines/local_wd"
+        LOCAL_WD = "${params.LOCAL_WD}"
         CONFIG_REPO_DIR = "iqtree-test-config"
         IQTREE_CONFIG_REPO_LOCAL = "${WORKING_DIR}/${CONFIG_REPO_DIR}"
         DATASET_DIR = "${WORKING_DIR}/data"
@@ -63,7 +78,17 @@ pipeline {
                     if (params.BUILD) {
                         echo 'Building..'
                         // trigger jenkins iqtree-build-pipeline
-                        build job: 'iqtree-build-pipeline', parameters: [string(name: 'BRANCH', value: BRANCH)]
+                        build job: 'iqtree-build-pipeline', parameters: [
+                        string(name: 'BRANCH', value: BRANCH),
+                        string(name: 'NCI_ALIAS', value: NCI_ALIAS),
+                        string(name: 'WORKING_DIR', value: WORKING_DIR),
+                        booleanParam(name: 'NN', value: NN),
+                        string(name: 'ONNX_NN', value: ONNX_NN),
+                        booleanParam(name: 'GPU', value: GPU),
+                        string(name: 'ONNX_NN_GPU', value: ONNX_NN_GPU),
+
+
+                        ]
 
                     }
                     else {
@@ -131,21 +156,25 @@ pipeline {
                         // create dynamic env variables
                         def N_ATTEMPT_INT = params.N_ATTEMPT.toInteger()
                         def envFileContent = """
-                            #!/bin/bash
-                            export NATTEMPT=${N_ATTEMPT_INT} # number of attempts
-                            export M_OPTION=${M_OPTION} # MF/TESTMERGEONLY/TESTONLY ....
-                            export MRATE_OPTION=${MRATE_OPTION} # -mrate option
-                            export MSET_OPTION=${MSET_OPTION} # -mset option
-                            export OTHER_OPTIONS=${OTHER_OPTIONS} # other options
+#!/bin/bash
+export NATTEMPT=${N_ATTEMPT_INT} # number of attempts
+export M_OPTION=${M_OPTION} # MF/TESTMERGEONLY/TESTONLY ....
+export MRATE_OPTION=${MRATE_OPTION} # -mrate option
+export MSET_OPTION=${MSET_OPTION} # -mset option
+export OTHER_OPTIONS=${OTHER_OPTIONS} # other options
 
-                            # data files
-                            export ALIGNMENT=${ALIGNMENT}
-                            export PARTITION=${PARTITIONS}
-                            export TREE=${TREE}
-                            export USE_PARTITION=${USE_PARTITION}
-                            export OUTPUT_DIR="${WORKING_DIR}/output-${DATASET}"
+# working directory
+export WORK_DIR="${WORKING_DIR}"
 
-                            mkdir -p ${WORKING_DIR}/output-${DATASET}
+
+# data files
+export ALIGNMENT=${ALIGNMENT}
+export PARTITION=${PARTITIONS}
+export TREE=${TREE}
+export USE_PARTITION=${USE_PARTITION}
+export OUTPUT_DIR="${WORKING_DIR}/output-${DATASET}"
+
+mkdir -p ${WORKING_DIR}/output-${DATASET}
                         """
 
                         // write env variables to a file
