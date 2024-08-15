@@ -1,9 +1,7 @@
 #!/bin/bash
 ######## input varibles #################
-export WORK_DIR=$ARG9
-WORK_DIR=$ARG9
-source ${WORK_DIR}/helpers/env.sh
-source ${WORK_DIR}/helpers/create_env.sh
+
+
 
 ncpus=$ARG1
 nthreads=$ARG2
@@ -13,6 +11,9 @@ m_option=$ARG5
 unique_name=$ARG6
 build_directory=$ARG7
 type=$ARG8
+WORK_DIR=$ARG9
+source ${WORK_DIR}/helpers/env.sh
+source ${WORK_DIR}/helpers/create_env.sh
 
 
 ########################################

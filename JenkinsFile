@@ -215,6 +215,7 @@ mkdir -p ${WORKING_DIR}/output-${DATASET}
                 script {
                     echo "section: Test from script"
 
+                    echo ${}
                     def N_ATTEMPT_INT = params.N_ATTEMPT.toInteger()
 
                     sh """
