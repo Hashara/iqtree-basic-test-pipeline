@@ -11,9 +11,9 @@ m_option=$ARG5
 unique_name=$ARG6
 build_directory=$ARG7
 type=$ARG8
-WORK_DIR=$ARG9
-source ${WORK_DIR}/helpers/env.sh
-source ${WORK_DIR}/helpers/create_env.sh
+WORKING_DIR=$ARG9
+source ${WORKING_DIR}/helpers/env.sh
+source ${WORKING_DIR}/helpers/create_env.sh
 
 
 ########################################

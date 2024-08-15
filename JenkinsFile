@@ -169,7 +169,8 @@ export MSET_OPTION=${MSET_OPTION} # -mset option
 export OTHER_OPTIONS=${OTHER_OPTIONS} # other options
 
 # working directory
-export WORK_DIR="${WORKING_DIR}"
+#export WORK_DIR="${WORKING_DIR}"
+export WORKING_DIR="${WORKING_DIR}"
 
 
 # data files
