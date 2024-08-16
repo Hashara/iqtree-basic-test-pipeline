@@ -40,6 +40,9 @@ pipeline {
         string (defaultValue: 'false', description: 'Other options', name: 'OTHER_OPTIONS')
         string(defaultValue: '1', name: 'N_ATTEMPT', description: 'Number of attempt')  // in the later stage convert this to int
 
+        // unique output folder name
+        string (defaultValue: 'unique-name', description: 'Output folder unique name', name: 'UNIQUE_FOLDER_NAME')
+
      }
      options {
              skipStagesAfterUnstable()
@@ -59,6 +62,7 @@ pipeline {
         DATASET_DIR = "${WORKING_DIR}/data"
 
         // params to env variables
+        UNIQUE_FOLDER_NAME = "${params.UNIQUE_FOLDER_NAME}"
         N_ATTEMPT = "${params.N_ATTEMPT}"
         M_OPTION = "${params.M_OPTION}"
         MSET_OPTION = "${params.MSET_OPTION}"
@@ -168,8 +172,9 @@ export MRATE_OPTION=${MRATE_OPTION} # -mrate option
 export MSET_OPTION=${MSET_OPTION} # -mset option
 export OTHER_OPTIONS=${OTHER_OPTIONS} # other options
 
+export UNIQUE_FOLDER_NAME=${UNIQUE_FOLDER_NAME} # unique name for the output folder
+
 # working directory
-#export WORK_DIR="${WORKING_DIR}"
 export WORKING_DIR="${WORKING_DIR}"
 
 

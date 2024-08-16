@@ -21,7 +21,7 @@ mkdir -p ${OUTPUT_DIR}/${type}
 
 cd ${OUTPUT_DIR}/${type}
 
-file_name="${OUTPUT_DIR}/${type}/execution.$unique_name.log"
+file_name="${OUTPUT_DIR}/${type}/execution.${UNIQUE_FOLDER_NAME}.$unique_name.log"
 
 > $file_name
 
@@ -108,8 +108,8 @@ nn_models_option="--nn-path-model $nn_model_finder --nn-path-rates $nn_alpha_fin
 
 ######
 # creating output directory
-mkdir -p ${OUTPUT_DIR}/${type}/$unique_name
-prefix_name="${OUTPUT_DIR}/${type}/$unique_name/$unique_name"
+mkdir -p ${OUTPUT_DIR}/${type}/${UNIQUE_FOLDER_NAME}.$unique_name
+prefix_name="${OUTPUT_DIR}/${type}/${UNIQUE_FOLDER_NAME}.$unique_name/${UNIQUE_FOLDER_NAME}.$unique_name"
 
 
 # case for type OPENMP, MPI, HYBRID, NN, NN-MPI, NN-HYBRID, GPU, GPU-MPI, GPU-HYBRID
