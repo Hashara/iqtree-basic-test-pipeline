@@ -190,7 +190,7 @@ mkdir -p ${WORKING_DIR}/output-${DATASET}
                         """
 
                         // write env variables to a file
-                        writeFile file: "helpers/env.sh", text: envFileContent
+                        writeFile file: "helpers/${UNIQUE_FOLDER_NAME}_env.sh", text: envFileContent
 
 
 
@@ -226,7 +226,7 @@ mkdir -p ${WORKING_DIR}/output-${DATASET}
 
                     sh """
                             ssh ${NCI_ALIAS} << EOF
-                            source ${WORKING_DIR}/helpers/env.sh
+                            source ${WORKING_DIR}/helpers/${UNIQUE_FOLDER_NAME}_env.sh
                             source ${WORKING_DIR}/helpers/create_env.sh
 
                             /bin/bash ${TEST_SCRIPTS_DIR}/testFactory.sh
