@@ -184,7 +184,7 @@ export PARTITION=${PARTITIONS}
 export TREE=${TREE}
 export USE_PARTITION=${USE_PARTITION}
 export USE_TREE=${USE_TREE}
-export OUTPUT_DIR="${WORKING_DIR}/output-${DATASET}"
+export OUTPUT_DIR="${WORKING_DIR}/output-${UNIQUE_FOLDER_NAME}-${DATASET}"
 
 mkdir -p ${WORKING_DIR}/output-${DATASET}
                         """
