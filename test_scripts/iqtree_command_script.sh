@@ -12,7 +12,8 @@ unique_name=$ARG6
 build_directory=$ARG7
 type=$ARG8
 WORKING_DIR=$ARG9
-source ${WORKING_DIR}/helpers/${UNIQUE_FOLDER_NAME}_env.sh
+unique_folder_name=$ARG10
+source ${WORKING_DIR}/helpers/${unique_folder_name}_env.sh
 source ${WORKING_DIR}/helpers/create_env.sh
 
 
