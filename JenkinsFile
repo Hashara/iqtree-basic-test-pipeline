@@ -236,8 +236,12 @@ mkdir -p ${WORKING_DIR}/output-${UNIQUE_FOLDER_NAME}-${DATASET}
                 }
             }
         }
-
-
+        post {
+            always {
+                echo 'Cleaning up workspace'
+                cleanWs()
+            }
+        }
 
     }
 }
