@@ -9,11 +9,11 @@ m_option="${M_OPTION}"
 for ((attempt=1; attempt <= $nattempt; attempt +=1 ));
 do
   head=true
-  while IFS=, read -r type threads cpus time
+  while IFS=, read -r type threads cpus time memory
   do
     if [[ "$head" != "true" ]]; then
   			echo "Type: $type, Threads: $threads, CPUs: $cpus, Time: $time"
-                      mem=$((4 * cpus * threads))GB
+                      mem=$((memory))GB
                       ncpus=$((cpus * threads))
                       unique_name="$m_option.$type.cpus.$cpus.threads.$threads.attempt.$attempt"
                       mkdir -p ${OUTPUT_DIR}/${type}
@@ -39,7 +39,6 @@ do
             				NN)
             					test_type="nn"
             					build_directory="build-nn"
-            					mem=$((4 * cpus * threads * 2))GB # todo: move this dependancy to csv file
             					;;
             				NN-MPI)
             					test_type="nn-mpi"
@@ -54,7 +53,6 @@ do
             					queue="gpuvolta"
             					ncpus=$((cpus * threads * 12))
             					ngpu=$((cpus * threads))
-            					mem=$((4 * cpus * threads * 3))GB
             					build_directory="build-gpu-nn"
             					;;
             				GPU-MPI)
@@ -62,7 +60,6 @@ do
             					queue="gpuvolta"
             					ncpus=$((cpus * threads * 12))
             					ngpu=$((cpus * threads))
-            					mem=$((4 * cpus * threads * 3))GB
             					build_directory="build-gpu-nn-mpi"
             					;;
             				GPU-HYBRID)
