@@ -44,9 +44,9 @@ pipeline {
         string (defaultValue: 'unique-name', description: 'Output folder unique name', name: 'UNIQUE_FOLDER_NAME')
 
      }
-     options {
-             skipStagesAfterUnstable()
-     }
+//      options {
+//              skipStagesAfterUnstable()
+//      }
      environment {
         IQTREE_GIT_URL = "https://github.com/iqtree/iqtree2.git"
         NCI_ALIAS = "${params.NCI_ALIAS}"
