@@ -119,30 +119,30 @@ case $type in
     test_type="openmp"
     if [ "$nthreads" -gt 1 ]; then
 
-      /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
+      /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options --redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
     else
       # todo: remove this
       export OMP_PROC_BIND=spread
       export OMP_PLACES=cores
-      /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options -redo --prefix $prefix_name >> $file_name 2>&1
+      /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options --redo --prefix $prefix_name >> $file_name 2>&1
     fi
 
     ;;
   MPI)
     test_type="mpi"
-    mpirun -np $ncpus ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options -redo --prefix $prefix_name >> $file_name 2>&1
+    mpirun -np $ncpus ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options --redo --prefix $prefix_name >> $file_name 2>&1
     ;;
   HYBRID)
     test_type="hybrid"
     export OMP_NUM_THREADS=$nthreads
     export GOMP_CPU_AFFINITY=0-47
 
-    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options -redo  -nt $nthreads --prefix $prefix_name>> $file_name 2>&1
+    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $mf_mset_mrate_option $other_options --redo  -nt $nthreads --prefix $prefix_name>> $file_name 2>&1
     ;;
   NN)
     test_type="nn"
     if [ "$nthreads" -gt 1 ]; then
-          /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
+          /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option --redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
         else
           # todo: remove this
           export OMP_PROC_BIND=spread
@@ -150,37 +150,37 @@ case $type in
           export OMP_NUM_THREADS=$nthreads
           export GOMP_CPU_AFFINITY=0-47
 
-          /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
+          /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option --redo --prefix $prefix_name >> $file_name 2>&1
         fi
     ;;
   NN-MPI)
     test_type="nn-mpi"
-    mpirun -np $ncpus ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
+    mpirun -np $ncpus ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option --redo --prefix $prefix_name >> $file_name 2>&1
     ;;
   NN-HYBRID)
     test_type="nn-hybrid"
     export OMP_NUM_THREADS=$nthreads
     export GOMP_CPU_AFFINITY=0-47
-    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo  -nt $nthreads --prefix $prefix_name>> $file_name 2>&1
+    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option --redo  -nt $nthreads --prefix $prefix_name>> $file_name 2>&1
    ;;
   GPU)
     test_type="gpu"
     if [ "$nthreads" -gt 1 ]; then
-        /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
+        /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option --redo --prefix $prefix_name -nt $nthreads>> $file_name 2>&1
       else
-        /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
+        /usr/bin/time -v ${BUILD_DIR}/${build_directory}/iqtree2 $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option --redo --prefix $prefix_name >> $file_name 2>&1
       fi
     ;;
   GPU-MPI)
     test_type="gpu-mpi"
-    mpirun -np $ncpus ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo --prefix $prefix_name >> $file_name 2>&1
+    mpirun -np $ncpus ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option --redo --prefix $prefix_name >> $file_name 2>&1
 
     ;;
   GPU-HYBRID)
     test_type="gpu-hybrid"
     export OMP_NUM_THREADS=$nthreads
     export GOMP_CPU_AFFINITY=0-47
-    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option -redo -nt $nthreads --prefix $prefix_name >> $file_name 2>&1
+    /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -m $m_option -seed 1 $nn_mset_mrate_option $other_options $nn_models_option --redo -nt $nthreads --prefix $prefix_name >> $file_name 2>&1
 
     ;;
   *)
