@@ -91,7 +91,15 @@ elif [ "${MRATE_OPTION}" == "NN" ]; then
     nn_mset_mrate_option="--mset ${MSET_OPTION} --mrate NN"
     mf_mset_mrate_option="--mset ${MSET_OPTION}"
   fi
-
+elif [ "${MSET_OPTION}" != "false" ] && [ "${MRATE_OPTION}" != "false" ]; then
+  nn_mset_mrate_option="--mset ${MSET_OPTION} --mrate ${MRATE_OPTION}"
+  mf_mset_mrate_option="--mset ${MSET_OPTION} --mrate ${MRATE_OPTION}"
+elif [ "${MSET_OPTION}" != "false" ]; then
+  nn_mset_mrate_option="--mset ${MSET_OPTION}"
+  mf_mset_mrate_option="--mset ${MSET_OPTION}"
+elif [ "${MRATE_OPTION}" != "false" ]; then
+  nn_mset_mrate_option="--mrate ${MRATE_OPTION}"
+  mf_mset_mrate_option="--mrate ${MRATE_OPTION}"
 fi
 
 ##############################################
