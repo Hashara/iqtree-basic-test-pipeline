@@ -20,6 +20,8 @@ pipeline {
         string(name: 'ONNX_NN_GPU', description: 'onnxruntime for NN-CUDA (use 1.12 version)', defaultValue: '/scratch/dx61/sa0557/iqtree2/onnxruntime-linux-x64-gpu-1.12.1')
 
 
+        string(name:'NCI_PROJECT', defaultValue: 'dx61', description: 'NCI project name')
+
         // bool for config repo
         booleanParam(defaultValue: true, description: 'Clone the config repo?', name: 'CLONE_CONFIG_REPO')
 
@@ -74,6 +76,7 @@ pipeline {
         ONNX_NN="${params.ONNX_NN}"
         GPU="${params.GPU}"
         ONNX_NN_GPU="${params.ONNX_NN_GPU}"
+        NCI_PROJECT = "${params.NCI_PROJECT}"
 
         TEST_SCRIPTS_DIR = "${WORKING_DIR}/test_scripts"
 
@@ -176,7 +179,7 @@ export UNIQUE_FOLDER_NAME=${UNIQUE_FOLDER_NAME} # unique name for the output fol
 
 # working directory
 export WORKING_DIR="${WORKING_DIR}"
-
+export NCI_PROJECT="${NCI_PROJECT}"
 
 # data files
 export ALIGNMENT=${ALIGNMENT}
