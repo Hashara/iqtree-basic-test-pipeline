@@ -231,7 +231,7 @@ mkdir -p ${WORKING_DIR}/output-${UNIQUE_FOLDER_NAME}-${DATASET}
 
                             /bin/bash ${TEST_SCRIPTS_DIR}/testFactory.sh
                             exit
-                            EOF
+
                         """
                 }
             }
