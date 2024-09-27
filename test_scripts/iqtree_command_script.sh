@@ -110,7 +110,7 @@ fi
 
 ##############################################
 # model dir
-model_dir="/scratch/dx61/sa0557/iqtree2/models"
+model_dir="${NN_MODEL_DIR}"
 nn_model_finder="${model_dir}/resnet_modelfinder.onnx"
 nn_alpha_finder="${model_dir}/lanfear_alpha_lstm.onnx"
 nn_models_option="--nn-path-model $nn_model_finder --nn-path-rates $nn_alpha_finder"

@@ -27,6 +27,7 @@ pipeline {
 
         string (defaultValue: '/Users/u7826985/Projects/iqtree-pipelines/local_wd', description: 'Local working directory', name: 'LOCAL_WD')
 
+        string(name:"NN_MODEL_DIR", defaultValue: '/scratch/dx61/sa0557/iqtree2/models', description: 'NN model directory')
 
         // bool for test
         booleanParam(defaultValue: true, description: 'Run with partition?', name: 'USE_PARTITION')
@@ -77,6 +78,7 @@ pipeline {
         GPU="${params.GPU}"
         ONNX_NN_GPU="${params.ONNX_NN_GPU}"
         NCI_PROJECT = "${params.NCI_PROJECT}"
+        NN_MODEL_DIR = "${params.NN_MODEL_DIR}"
 
         TEST_SCRIPTS_DIR = "${WORKING_DIR}/test_scripts"
 
