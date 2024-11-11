@@ -36,6 +36,10 @@ do
             					test_type="hybrid"
             					build_directory="build-mpi"
             					;;
+            			  DUAL-HYBRID)
+                      test_type="hybrid"
+                      build_directory="build-mpi"
+                      ;;
             				NN)
             					test_type="nn"
             					build_directory="build-nn"

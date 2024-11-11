@@ -151,6 +151,15 @@ case $type in
 
     /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -seed 1 $mf_mset_mrate_option $other_options --redo  -nt $nthreads --prefix $prefix_name>> $file_name 2>&1
     ;;
+  DUAL-HYBRID)
+      test_type="hybrid"
+      export OMP_NUM_THREADS=$nthreads
+      export GOMP_CPU_AFFINITY=0-47
+
+      /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -seed 1 $mf_mset_mrate_option $other_options --redo  -nt $nthreads --prefix ${prefix_name}.fill.by.process>> ${file_name}.fill.by.process 2>&1
+      /usr/bin/time -v mpirun -np $ncpus --map-by node:PE=$OMP_NUM_THREADS --rank-by core --report-bindings ${BUILD_DIR}/${build_directory}/iqtree2-mpi $data_params -seed 1 $mf_mset_mrate_option $other_options --redo --parallel-order-thread  -nt $nthreads --prefix ${prefix_name}.fill.by.threads>> ${file_name}.fill.by.threads 2>&1
+
+      ;;
   NN)
     test_type="nn"
     if [ "$nthreads" -gt 1 ]; then
